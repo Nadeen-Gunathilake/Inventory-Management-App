@@ -1,16 +1,16 @@
 import express from "express";
-import * as NotesController from "../controllers/notes";
+import * as InventoryController from "../controllers/inventory";
 
 const router = express.Router();
 
-router.get("/",NotesController.getNotes);
+router.get("/",InventoryController.getInventory);
 
-router.get("/:noteId",NotesController.getNote);
+router.get("/:inventoryId",InventoryController.getInventoryItem);
 
-router.post("/",NotesController.createNote);
+router.post("/",InventoryController.createInventory);
 
-router.patch("/:noteId",NotesController.updateNote);
+router.patch("/:noteId",InventoryController.updateInventory);
 
-router.delete("/:noteId",NotesController.deleteNote);
+router.delete("/:noteId",InventoryController.deleteInventory);
 
 export default router;
