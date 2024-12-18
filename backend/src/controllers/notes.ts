@@ -1,155 +1,141 @@
 import { RequestHandler } from "express";
-import NoteModel from "../models/note";
+import InventoryModel from "../models/inventory";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
-import { assertisDefined } from "../util/assertisDefined";
 
 
-export const getNotes:RequestHandler= async (req, res,next) => {
-const authenticatedUserId =req.session.userId;
+
+export const getInventory:RequestHandler= async (req, res,next) => {
 
     try{
-        assertisDefined(authenticatedUserId);
-        
-        const notes=await NoteModel.find({userId: authenticatedUserId}).exec();
-        res.status(200).json(notes);
+        const inventory=await InventoryModel.find().exec();
+        res.status(200).json(inventory);
     }catch(error){
         next(error);
     }
     
 };
 
-export const getNote: RequestHandler=async (req,res,next)=>{
-    const noteId=req.params.noteId;
-    const authenticatedUserId =req.session.userId;
-    try {
-        assertisDefined(authenticatedUserId);
-
-        if(!mongoose.isValidObjectId(noteId)){
-            throw createHttpError(400,"Invalid note id");
-        }
-
-        const note=await NoteModel.findById(noteId).exec();
-
-        if (!note){
-            throw createHttpError(404,"Note not found");
-        }
-
-
-        if(!note.userId.equals(authenticatedUserId)){
-            throw createHttpError(401,"You cannot access this note");
-        }
-
-        res.status(200).json(note);
-        
-    } catch (error) {
-        next(error);
-    }
-};
-
-interface CreateNoteBody{
-    title?:string,
-    text?:string,
-
-}
-
-export const createNote:RequestHandler<unknown,unknown,CreateNoteBody,unknown>=async(req,res,next)=>{
-    const title=req.body.title;
-    const text=req.body.text;
-    const authenticatedUserId =req.session.userId;
-
-    try {
-        assertisDefined(authenticatedUserId);
-
-        if(!title){
-            throw createHttpError(400,"Note must have a title");
-        }
-
-        const newNote = await NoteModel.create({
-            userId:authenticatedUserId,
-            title:title,
-            text:text,
-        });  
-        
-        res.status(201).json(newNote);
-    } catch (error) {
-        next(error);
-        
-    }
-};
-
-interface UpdateNoteParams{
-    noteId:string,
-}
-
-interface UpdateNoteBody{
-    title?:string,
-    text?:string,
-
-}
-export const updateNote:RequestHandler<UpdateNoteParams,unknown,UpdateNoteBody,unknown>=async(req,res,next)=>{
-    const noteId=req.params.noteId;
-    const newTitle=req.body.title;
-    const newText=req.body.text;
-    const authenticatedUserId =req.session.userId;
-
-    try {
-        assertisDefined(authenticatedUserId);
-
-        if(!mongoose.isValidObjectId(noteId)){
-            throw createHttpError(400,"Invalid note id");
-        }
-        if(!newTitle){
-            throw createHttpError(400,"Note must have a title");
-        }
-
-       const note=await NoteModel.findById(noteId).exec(); 
-
-       if (!note){
-        throw createHttpError(404,"Note not found");
-    }
-
-    if(!note.userId.equals(authenticatedUserId)){
-        throw createHttpError(401,"You cannot access this note");
-    }
+export const getInventoryItem: RequestHandler=async (req,res,next)=>{
+    const inventoryId=req.params.inventoryId;
     
-    note.title=newTitle;
-    note.text=newText;
+    try {
+      
 
-    const updatedNote =await note.save();
+        if(!mongoose.isValidObjectId(inventoryId)){
+            throw createHttpError(400,"Invalid inventory id");
+        }
 
-    res.status(200).json(updatedNote);
+        const inventoryItem =await InventoryModel.findById(inventoryId).exec();
+
+        if (!inventoryItem){
+            throw createHttpError(404,"InventoryItem not found");
+        }
+
+
+        res.status(200).json(inventoryItem);
+        
     } catch (error) {
         next(error);
-        
     }
 };
 
-export const deleteNote:RequestHandler =async(req, res, next)=>{
-    const noteId=req.params.noteId;
-    const authenticatedUserId =req.session.userId;
+interface CreateInventoryBody {
+    product_id?: string;
+    product_name?: string;
+    available_stock?: number;
+}
+
+interface CreateInventoryBody {
+    product_id?: string;
+    product_name?: string;
+    available_stock?: number;
+}
+
+export const createInventory: RequestHandler<unknown, unknown, CreateInventoryBody, unknown> = async (req, res, next) => {
+    const product_id = req.body.product_id;
+    const product_name = req.body.product_name;
+    const available_stock = req.body.available_stock;
 
     try {
-        assertisDefined(authenticatedUserId);
-
-        if(!mongoose.isValidObjectId(noteId)){
-            throw createHttpError(400,"Invalid note id");
+        if (!product_id || !product_name || available_stock === undefined) {
+            throw createHttpError(400, "Product must have a product_id ,product_name and available_stock.");
         }
 
-        const note=await NoteModel.findById(noteId).exec();
+        const newInventory = await InventoryModel.create({
+            product_id: product_id,
+            product_name: product_name,
+            available_stock: available_stock,
+        });
 
-        if(!note){
-            throw createHttpError(404,"Note not found");
-        }
-        if(!note.userId.equals(authenticatedUserId)){
-            throw createHttpError(401,"You cannot access this note");
+        res.status(201).json(newInventory);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+interface UpdateInventoryParams {
+    inventoryId: string;
+}
+
+interface UpdateInventoryBody {
+    product_id?: string;
+    product_name?: string;
+    available_stock?: number;
+}
+
+export const updateInventory: RequestHandler<UpdateInventoryParams, unknown, UpdateInventoryBody, unknown> = async (req, res, next) => {
+    const inventoryId = req.params.inventoryId;
+    const newProduct_id = req.body.product_id;
+    const newProduct_name = req.body.product_name;
+    const newAvailable_stock = req.body.available_stock;
+
+    try {
+        if (!mongoose.isValidObjectId(inventoryId)) {
+            throw createHttpError(400, "Invalid inventory item_id");
         }
 
-        await note.deleteOne();
+        if (!newProduct_id || !newProduct_name || newAvailable_stock === undefined) {
+            throw createHttpError(400, "Product must have a product_id, product_name, and available_stock.");
+        }
+
+        const inventoryItem = await InventoryModel.findById(inventoryId).exec();
+
+        if (!inventoryItem) {
+            throw createHttpError(404, "Inventory item not found");
+        }
+
+        inventoryItem.product_id = newProduct_id;
+        inventoryItem.product_name = newProduct_name;
+        inventoryItem.available_stock = newAvailable_stock;
+
+        const updatedInventory = await inventoryItem.save();
+
+        res.status(200).json(updatedInventory);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteInventory: RequestHandler = async (req, res, next) => {
+    const inventoryId = req.params.inventoryId;
+
+    try {
+        if (!mongoose.isValidObjectId(inventoryId)) {
+            throw createHttpError(400, "Invalid inventory item id");
+        }
+
+        const inventoryItem = await InventoryModel.findById(inventoryId).exec();
+
+        if (!inventoryItem) {
+            throw createHttpError(404, "Inventory item not found");
+        }
+
+        await inventoryItem.deleteOne();
 
         res.sendStatus(204);
-
     } catch (error) {
         next(error);
     }
-}
+};

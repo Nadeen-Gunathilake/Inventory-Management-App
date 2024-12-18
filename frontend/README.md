@@ -44,3 +44,12 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+9. Inventory and Task Management App
+Description: An app for small businesses to manage their inventory and related tasks (e.g., restocking, product tracking).
+Features:
+User authentication
+Add, update, and track inventory
+Create tasks for inventory management (e.g., restock alerts)
+Export inventory reports
+Notifications for low stock
