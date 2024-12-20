@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { User } from "../models/user";
-import { LoginCredentials } from "../network/notes_api";
-import * as NotesApi from "../network/notes_api";
+import { LoginCredentials } from "../network/inventory_api";
+import * as NotesApi from "../network/inventory_api";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 import TextInputField from "./from/TextInputField";
 import styleUtils from "../styles/utils.module.css";
