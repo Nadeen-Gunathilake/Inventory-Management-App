@@ -9,8 +9,8 @@ router.get("/:inventoryId",InventoryController.getInventoryItem);
 
 router.post("/",InventoryController.createInventory);
 
-router.patch("/:noteId",InventoryController.updateInventory);
+router.patch("/:inventoryId",InventoryController.updateInventory);
 
-router.delete("/:noteId",InventoryController.deleteInventory);
+router.delete("/:inventoryId",InventoryController.deleteInventory);
 
 export default router;
