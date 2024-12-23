@@ -5,18 +5,14 @@ import { Inventory as InventoryModel } from '../models/inventory';
 import * as InventoryApi from "../network/inventory_api";
 import styles from "../styles/NotesPage.module.css";
 import styleUtils from "../styles/utils.module.css";
-import AddEditNoteDialog from "./AddEditInventoryDialog";
+import AddEditInventoryDialog from "./AddEditInventoryDialog";
 import Inventory from "./Inventory";
-
-
 
 const InventoryManagerPageLoggedInView = () => {
 
     const [inventories, setInventory] = useState<InventoryModel[]>([]);
     const [inventoriesLoading, setInventoryLoading] = useState(true);
     const [showInventoryLoadingError, setShowInventoryLoadingError] = useState(false);
-
-
     const [showAddInventoryDialog, setShowAddInventoryDialog] = useState(false);
     const [inventoryToEdit, setInventoryToEdit] = useState<InventoryModel | null>(null);
 
@@ -45,22 +41,8 @@ const InventoryManagerPageLoggedInView = () => {
             console.error(error);
             alert(error);
         }
-
     }
 
-    const inventoriesGrid =
-        <Row xs={1} md={2} xl={3} className={`g-4 ${styles.inventoriesGrid}`}>
-            {inventories.map(inventory => (
-                <Col key={inventory._id} >
-                    <Inventory
-                        inventory={inventory}
-                        className={styles.inventory}
-                        onInventoryClicked={setInventoryToEdit}
-                        onDeleteInventoryClicked={deleteInventory}
-                    />
-                </Col>
-            ))}
-        </Row>
 
     return (
         <>
@@ -70,20 +52,24 @@ const InventoryManagerPageLoggedInView = () => {
                 <FaPlus />
                 Add new item
             </Button>
-            {inventoriesLoading && <Spinner animation='border' variant='primary' />}
-            {showInventoryLoadingError && <p>Something went wrong.Please refresh the page.</p>}
-            {!inventoriesLoading && !showInventoryLoadingError &&
-                <>
-                    {inventories.length > 0
-                        ? inventoriesGrid
-                        : <p>You don't have any notes yet</p>
 
-                    }
-                </>
+            {inventoriesLoading && <Spinner animation='border' variant='primary' />}
+            {showInventoryLoadingError && <p>Something went wrong. Please refresh the page.</p>}
+            {!inventoriesLoading && !showInventoryLoadingError &&
+                
+                    (inventories.length>0
+                    ? <Inventory
+                        inventories={inventories}
+                        onInventoryClicked={setInventoryToEdit}
+                        onDeleteInventoryClicked={deleteInventory}
+                    />
+                    : <p>You don't have any inventory items yet</p>
+                )
+                
             }
 
             {showAddInventoryDialog &&
-                <AddEditNoteDialog
+                <AddEditInventoryDialog
                     onDismiss={() => setShowAddInventoryDialog(false)}
                     onInventorySaved={(newInventory) => {
                         setInventory([...inventories, newInventory]);
@@ -91,13 +77,15 @@ const InventoryManagerPageLoggedInView = () => {
                     }}
                 />
             }
+
             {inventoryToEdit &&
-                <AddEditNoteDialog
+                <AddEditInventoryDialog
                     inventoryToEdit={inventoryToEdit}
                     onDismiss={() => setInventoryToEdit(null)}
                     onInventorySaved={(updatedInventory) => {
-
-                        setInventory(inventories.map(existingInventory => existingInventory._id === updatedInventory._id ? updatedInventory : existingInventory));
+                        setInventory(inventories.map(existingInventory =>
+                            existingInventory._id === updatedInventory._id ? updatedInventory : existingInventory
+                        ));
                         setInventoryToEdit(null);
                     }}
                 />
