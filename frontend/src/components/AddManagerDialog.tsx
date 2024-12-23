@@ -1,8 +1,8 @@
 import { Button, Form, FormGroup, Modal } from "react-bootstrap";
 import { User } from "../models/user";
-import { InventoryInput } from "../network/inventory_api";
+import { UserInput } from "../network/user_api";
 import { useForm } from "react-hook-form";
-import * as InventoryApi from "../network/inventory_api";
+import * as UserApi from "../network/user_api";
 import TextInputField from "./from/TextInputField";
 
 interface AddUserDialogProps {
@@ -17,7 +17,6 @@ const AddUserDialog = ({ onDismiss, onUserSaved }: AddUserDialogProps) => {
             username: "",
             email: "",
             password: "",
-            type: "Manager",
         }
     });
 
@@ -31,14 +30,15 @@ const AddUserDialog = ({ onDismiss, onUserSaved }: AddUserDialogProps) => {
         } catch (error) {
             console.error("Error saving user:", error);
             alert(error);
-        };
+        }
+    }
 
 
         return (
             <Modal show onHide={onDismiss}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Add inventory
+                        Add Manager
                     </Modal.Title>
                 </Modal.Header>
 
@@ -73,26 +73,7 @@ const AddUserDialog = ({ onDismiss, onUserSaved }: AddUserDialogProps) => {
                             registerOptions={{ required: "Required" }}
                             error={errors.password}
                         />
-                        <TextInputField
-                            name="type"
-                            label="Type"
-                            type="string"
-                            placeholder="Type"
-                            register={register}
-                            registerOptions={{ required: "Required" }}
-                            error={errors.type}
-                        />
-                        <Form.Group controlId="formCategory">
-                            <Form.Label>Type</Form.Label>
-                            <Form.Select
-                                {...register("type", { required: "Type is required" })}
-                                aria-label="Select type" >
-                                <option value="">Manager</option>
-                            </Form.Select>
-                            {errors.category && <p className="text-danger">{errors.type.message}</p>}
-
-                        </Form.Group>
-
+                       
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -107,6 +88,6 @@ const AddUserDialog = ({ onDismiss, onUserSaved }: AddUserDialogProps) => {
             </Modal>
         );
     }
-}
+
 
     export default AddUserDialog;
