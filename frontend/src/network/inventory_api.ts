@@ -76,7 +76,7 @@ export async function logout() {
 }
 
 export async function fetchInventory(): Promise<Inventory[]> {
-    const response = await fetchData("/api/inventory", { method: "GET" });
+    const response = await fetchData("/api/inventories", { method: "GET" });
     return response.json();
 
 }

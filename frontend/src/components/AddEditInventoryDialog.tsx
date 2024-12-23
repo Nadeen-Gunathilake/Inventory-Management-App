@@ -1,22 +1,23 @@
 import { Button, Form, FormGroup, Modal } from "react-bootstrap";
 import { Inventory } from "../models/inventory";
-import { InventoryInputInput } from "../network/inventory_api";
+import { InventoryInput } from "../network/inventory_api";
 import { useForm } from "react-hook-form";
 import * as InventoryApi from "../network/inventory_api";
 import TextInputField from "./from/TextInputField";
 
 interface AddEditInventoryDialogProps {
-    InventoryToEdit?: Inventory,
+    inventoryToEdit?: Inventory,
     onDismiss: () => void,
-    onNoteSaved: (inventory: Inventory) => void,
+    onInventorySaved: (inventory: Inventory) => void,
 }
 
 const AddEditInventoryDialog = ({ inventoryToEdit, onDismiss, onInventorySaved }: AddEditInventoryDialogProps) => {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<InventoryInput>({
         defaultValues: {
-            title: inventoryToEdit?.title || "",
-            text: inventoryToEdit?.text || "",
+            product_id: inventoryToEdit?.product_id || "",
+            product_name: inventoryToEdit?.product_name || "",
+            available_stock: inventoryToEdit?.available_stock || "",
         }
     });
 
@@ -49,18 +50,18 @@ const AddEditInventoryDialog = ({ inventoryToEdit, onDismiss, onInventorySaved }
             <Modal.Body>
                 <Form id="addEditInventoryForm" onSubmit={handleSubmit(onSubmit)}>
                     <TextInputField
-                        name="title"
-                        label="Title"
+                        name="product_id"
+                        label="Product_id"
                         type="text"
-                        placeholder="Title"
+                        placeholder="Product Id"
                         register={register}
                         registerOptions={{ required: "Required" }}
-                        error={errors.title}
+                        error={errors.product_id}
                     />
 
                     <TextInputField
-                        name="text"
-                        label="Text"
+                        name="product_name"
+                        label="Product_name"
                         as="textarea"
                         rows={5}
                         placeholder="Text"
