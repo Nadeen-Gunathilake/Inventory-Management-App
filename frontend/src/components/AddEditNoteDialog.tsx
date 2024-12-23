@@ -1,36 +1,36 @@
 import { Button, Form, FormGroup, Modal } from "react-bootstrap";
-import { Note } from "../models/inventory";
-import { NoteInput } from "../network/inventory_api";
+import { Inventory } from "../models/inventory";
+import { InventoryInputInput } from "../network/inventory_api";
 import { useForm } from "react-hook-form";
-import * as NotesApi from "../network/inventory_api";
+import * as InventoryApi from "../network/inventory_api";
 import TextInputField from "./from/TextInputField";
 
-interface AddEditNoteDialogProps {
-    noteToEdit?: Note,
+interface AddEditInventoryDialogProps {
+    InventoryToEdit?: Inventory,
     onDismiss: () => void,
-    onNoteSaved: (note: Note) => void,
+    onNoteSaved: (inventory: Inventory) => void,
 }
 
-const AddEditNoteDialog = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteDialogProps) => {
+const AddEditInventoryDialog = ({ inventoryToEdit, onDismiss, onInventorySaved }: AddEditInventoryDialogProps) => {
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<NoteInput>({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<InventoryInput>({
         defaultValues: {
-            title: noteToEdit?.title || "",
-            text: noteToEdit?.text || "",
+            title: inventoryToEdit?.title || "",
+            text: inventoryToEdit?.text || "",
         }
     });
 
-    async function onSubmit(input: NoteInput) {
+    async function onSubmit(input: InventoryInput) {
         try {
-            let noteResponse: Note;
-            if (noteToEdit) {
-                noteResponse = await NotesApi.updateNote(noteToEdit._id, input);
+            let inventoryResponse: Inventory;
+            if (inventoryToEdit) {
+                inventoryResponse = await InventoryApi.updateInventory(inventoryToEdit._id, input);
             }
             else {
-                noteResponse = await NotesApi.createNote(input);
+                inventoryResponse = await InventoryApi.createInventory(input);
             }
 
-            onNoteSaved(noteResponse);
+            onInventorySaved(inventoryResponse);
 
         } catch (error) {
             console.error(error);
@@ -42,12 +42,12 @@ const AddEditNoteDialog = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteDi
         <Modal show onHide={onDismiss}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    {noteToEdit ? "Edit note" : "Add note"}
+                    {inventoryToEdit ? "Edit inventory" : "Add inventory"}
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
-                <Form id="addEditNoteForm" onSubmit={handleSubmit(onSubmit)}>
+                <Form id="addEditInventoryForm" onSubmit={handleSubmit(onSubmit)}>
                     <TextInputField
                         name="title"
                         label="Title"
@@ -72,7 +72,7 @@ const AddEditNoteDialog = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteDi
             <Modal.Footer>
                 <Button
                     type="submit"
-                    form="addEditNoteForm"
+                    form="addEditInventoryForm"
                     disabled={isSubmitting}
                 >
                     Save
@@ -82,4 +82,4 @@ const AddEditNoteDialog = ({ noteToEdit, onDismiss, onNoteSaved }: AddEditNoteDi
     );
 }
 
-export default AddEditNoteDialog;
+export default AddEditInventoryDialog;

@@ -1,25 +1,25 @@
 import styles from "../styles/Note.module.css";
 import styleUtils from "../styles/utils.module.css";
 import { Card } from "react-bootstrap";
-import { Note as NoteModel } from "../models/inventory";
+import { Inventory as InventoryModel } from "../models/inventory";
 import { formatDate } from "../utils/formatDate";
 import {MdDelete} from "react-icons/md";
 
 
-interface NoteProps {
-    note: NoteModel,
-    onNoteClicked:(note:NoteModel)=>void,
-    onDeleteNoteClicked:(note:NoteModel)=>void,
+interface InventoryProps {
+    inventory: InventoryModel,
+    onInventoryClicked:(inventory:InventoryModel)=>void,
+    onDeleteInventoryClicked:(inventory:InventoryModel)=>void,
     className?: string,
 }
 
-const Note = ({ note,onNoteClicked,onDeleteNoteClicked, className }: NoteProps) => {
+const Inventory = ({ inventory,onInventoryClicked,onDeleteInventoryClicked, className }: InventoryProps) => {
     const {
         title,
         text,
         createdAt,
         updatedAt
-    } = note;
+    } = inventory;
 
     let createdUpdatedText:string;
     if(updatedAt>createdAt){
@@ -30,8 +30,8 @@ const Note = ({ note,onNoteClicked,onDeleteNoteClicked, className }: NoteProps) 
 
     return (
         <Card 
-        className={`${styles.noteCard} ${className}`}
-        onClick={()=>onNoteClicked(note)} >
+        className={`${styles.inventoryCard} ${className}`}
+        onClick={()=>onInventoryClicked(inventory)} >
            
                         <Card.Body className={styles.cardBody}>
                 <Card.Title className={styleUtils.flexCenter}>
@@ -39,7 +39,7 @@ const Note = ({ note,onNoteClicked,onDeleteNoteClicked, className }: NoteProps) 
                     <MdDelete
                     className="text-muted ms-auto"
                     onClick={(e)=>{
-                        onDeleteNoteClicked(note);
+                        onDeleteInventoryClicked(inventory);
                         e.stopPropagation();
                     }}
                     />
@@ -57,4 +57,4 @@ const Note = ({ note,onNoteClicked,onDeleteNoteClicked, className }: NoteProps) 
 
 }
 
-export default Note;
+export default Inventory;

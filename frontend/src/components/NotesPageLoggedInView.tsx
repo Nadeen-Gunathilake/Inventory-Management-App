@@ -1,46 +1,46 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import { FaPlus } from "react-icons/fa";
-import { Note as NoteModel } from '../models/inventory';
-import * as NotesApi from "../network/inventory_api";
+import { Inventory as InventoryModel } from '../models/inventory';
+import * as InventoryApi from "../network/inventory_api";
 import styles from "../styles/NotesPage.module.css";
 import styleUtils from "../styles/utils.module.css";
 import AddEditNoteDialog from "./AddEditNoteDialog";
-import Note from "./Note";
+import Inventory from "./Inventory";
 
 
 
-const NotesPageLoggedInView = () => {
+const InventoryPageLoggedInView = () => {
 
-    const [notes, setNotes] = useState<NoteModel[]>([]);
-    const [notesLoading, setNotesLoading] = useState(true);
-    const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
+    const [inventory, setInventory] = useState<InventoryModel[]>([]);
+    const [inventoryLoading, setInventoryLoading] = useState(true);
+    const [showInventoryLoadingError, setShowInventoryLoadingError] = useState(false);
 
 
-    const [showAddNoteDialog, setShowAddNoteDialog] = useState(false);
-    const [noteToEdit, setNotesToEdit] = useState<NoteModel | null>(null);
+    const [showAddInventoryDialog, setShowAddInventoryDialog] = useState(false);
+    const [inventoryToEdit, setInventoryToEdit] = useState<InventoryModel | null>(null);
 
     useEffect(() => {
-        async function loadNotes() {
+        async function loadInventory() {
             try {
-                setShowNotesLoadingError(false);
-                setNotesLoading(true);
-                const notes = await NotesApi.fetchNotes();
-                setNotes(notes);
+                setShowInventoryLoadingError(false);
+                setInventoryLoading(true);
+                const inventory = await InventoryApi.fetchInventory();
+                setInventory(inventory);
             } catch (error) {
                 console.error(error);
-                setShowNotesLoadingError(true);
+                setShowInventoryLoadingError(true);
             } finally {
-                setNotesLoading(false);
+                setInventoryLoading(false);
             }
         }
-        loadNotes();
+        loadInventory();
     }, []);
 
-    async function deleteNote(note: NoteModel) {
+    async function deleteInventory(inventory: InventoryModel) {
         try {
-            await NotesApi.deleteNote(note._id);
-            setNotes(notes.filter(existingNote => existingNote._id !== note._id));
+            await InventoryApi.deleteInventory(inventories._id);
+            setInventory(inventories.filter(existingInventory => existingInventory._id !== inventory._id));
         } catch (error) {
             console.error(error);
             alert(error);
@@ -50,13 +50,13 @@ const NotesPageLoggedInView = () => {
 
     const notesGrid =
         <Row xs={1} md={2} xl={3} className={`g-4 ${styles.notesGrid}`}>
-            {notes.map(note => (
-                <Col key={note._id} >
-                    <Note
-                        note={note}
-                        className={styles.note}
-                        onNoteClicked={setNotesToEdit}
-                        onDeleteNoteClicked={deleteNote}
+            {inventories.map(inventory => (
+                <Col key={inventory._id} >
+                    <Inventory
+                        inventory={inventory}
+                        className={styles.inventory}
+                        onInventoryClicked={setInventoryToEdit}
+                        onDeleteInventoryClicked={deleteInventory}
                     />
                 </Col>
             ))}
@@ -66,39 +66,39 @@ const NotesPageLoggedInView = () => {
         <>
             <Button
                 className={`mb-4 ${styleUtils.blockCenter} ${styleUtils.flexCenter}`}
-                onClick={() => setShowAddNoteDialog(true)}>
+                onClick={() => setShowAddInventoryDialog(true)}>
                 <FaPlus />
-                Add new note
+                Add new item
             </Button>
-            {notesLoading && <Spinner animation='border' variant='primary' />}
-            {showNotesLoadingError && <p>Something went wrong.Please refresh the page.</p>}
-            {!notesLoading && !showNotesLoadingError &&
+            {inventoriesLoading && <Spinner animation='border' variant='primary' />}
+            {showInventoryLoadingError && <p>Something went wrong.Please refresh the page.</p>}
+            {!inventoriesLoading && !showInventoryLoadingError &&
                 <>
-                    {notes.length > 0
-                        ? notesGrid
+                    {inventories.length > 0
+                        ? inventoriesGrid
                         : <p>You don't have any notes yet</p>
 
                     }
                 </>
             }
 
-            {showAddNoteDialog &&
+            {showAddInventoryDialog &&
                 <AddEditNoteDialog
-                    onDismiss={() => setShowAddNoteDialog(false)}
-                    onNoteSaved={(newNote) => {
-                        setNotes([...notes, newNote]);
-                        setShowAddNoteDialog(false);
+                    onDismiss={() => setShowAddInventoryDialog(false)}
+                    onInventorySaved={(newInventory) => {
+                        setInventory([...inventories, newInventory]);
+                        setShowAddInventoryDialog(false);
                     }}
                 />
             }
-            {noteToEdit &&
+            {inventoryToEdit &&
                 <AddEditNoteDialog
-                    noteToEdit={noteToEdit}
-                    onDismiss={() => setNotesToEdit(null)}
-                    onNoteSaved={(updatedNote) => {
+                    inventoryToEdit={inventoryToEdit}
+                    onDismiss={() => setInventoryToEdit(null)}
+                    onInventorySaved={(updatedInventory) => {
 
-                        setNotes(notes.map(existingNote => existingNote._id === updatedNote._id ? updatedNote : existingNote));
-                        setNotesToEdit(null);
+                        setInventory(inventories.map(existingInventory => existingInventory._id === updatedInventory._id ? updatedInventory : existingInventory));
+                        setInventoryToEdit(null);
                     }}
                 />
             }
@@ -106,4 +106,4 @@ const NotesPageLoggedInView = () => {
     );
 }
 
-export default NotesPageLoggedInView;
+export default InventoryPageLoggedInView;
