@@ -7,7 +7,8 @@ const userSchema=new Schema({
     type: {                      
         type: String,
         enum: ["Admin", "Manager"],
-        required: true
+        required: true,
+        default:"Manager",
     }
 });
 

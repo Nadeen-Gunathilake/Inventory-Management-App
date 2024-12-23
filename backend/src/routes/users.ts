@@ -10,4 +10,10 @@ router.post("/login",UserController.login);
 
 router.post("/logout",UserController.logout);
 
+router.post("/",UserController.createUser);
+
+router.patch("/:userId",UserController.UpdateUser);
+
+router.delete("/:userId",UserController.deleteUser);
+
 export default router;
