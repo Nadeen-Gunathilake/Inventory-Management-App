@@ -15,8 +15,9 @@ interface InventoryProps {
 
 const Inventory = ({ inventory,onInventoryClicked,onDeleteInventoryClicked, className }: InventoryProps) => {
     const {
-        title,
-        text,
+        product_id,
+        product_name,
+        available_stock,
         createdAt,
         updatedAt
     } = inventory;
@@ -35,7 +36,7 @@ const Inventory = ({ inventory,onInventoryClicked,onDeleteInventoryClicked, clas
            
                         <Card.Body className={styles.cardBody}>
                 <Card.Title className={styleUtils.flexCenter}>
-                    {title}
+                    {product_id}
                     <MdDelete
                     className="text-muted ms-auto"
                     onClick={(e)=>{
@@ -45,7 +46,8 @@ const Inventory = ({ inventory,onInventoryClicked,onDeleteInventoryClicked, clas
                     />
                 </Card.Title>
                 <Card.Text className={styles.cardText}>
-                    {text}
+                    {product_name}<br/>
+                    {available_stock}
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted">

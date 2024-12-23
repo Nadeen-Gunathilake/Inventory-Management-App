@@ -6,7 +6,7 @@ import { User } from './models/user';
 import * as InventoryApi from "./network/inventory_api";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import NotesPage from './pages/NotesPage';
+import NotesPage from './pages/InventoryPage';
 import PrivacyPage from './pages/PrivacyPage';
 import NotFoundPage from './pages/NotFoundPage';
 import styles from "./styles/App.module.css";
