@@ -3,7 +3,7 @@ import NavBar from './components/NavBar';
 import SignUpModal from './components/SignUpModal';
 import { useEffect, useState } from "react";
 import { User } from './models/user';
-import * as NotesApi from "./network/inventory_api";
+import * as InventoryApi from "./network/inventory_api";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import NotesPage from './pages/NotesPage';
@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     async function fetchLoggedInUser() {
       try {
-        const user = await NotesApi.getLoggedInUser();
+        const user = await InventoryApi.getLoggedInUser();
         setLoggedInUser(user);
       } catch (error) {
         console.error(error);

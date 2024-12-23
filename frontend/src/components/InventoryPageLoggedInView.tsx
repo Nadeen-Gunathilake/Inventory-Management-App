@@ -5,7 +5,7 @@ import { Inventory as InventoryModel } from '../models/inventory';
 import * as InventoryApi from "../network/inventory_api";
 import styles from "../styles/NotesPage.module.css";
 import styleUtils from "../styles/utils.module.css";
-import AddEditNoteDialog from "./AddEditNoteDialog";
+import AddEditNoteDialog from "./AddEditInventoryDialog";
 import Inventory from "./Inventory";
 
 
