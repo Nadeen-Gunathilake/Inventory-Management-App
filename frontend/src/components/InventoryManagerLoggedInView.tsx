@@ -10,10 +10,10 @@ import Inventory from "./Inventory";
 
 
 
-const InventoryPageLoggedInView = () => {
+const InventoryManagerPageLoggedInView = () => {
 
-    const [inventory, setInventory] = useState<InventoryModel[]>([]);
-    const [inventoryLoading, setInventoryLoading] = useState(true);
+    const [inventories, setInventory] = useState<InventoryModel[]>([]);
+    const [inventoriesLoading, setInventoryLoading] = useState(true);
     const [showInventoryLoadingError, setShowInventoryLoadingError] = useState(false);
 
 
@@ -25,8 +25,8 @@ const InventoryPageLoggedInView = () => {
             try {
                 setShowInventoryLoadingError(false);
                 setInventoryLoading(true);
-                const inventory = await InventoryApi.fetchInventory();
-                setInventory(inventory);
+                const inventories = await InventoryApi.fetchInventory();
+                setInventory(inventories);
             } catch (error) {
                 console.error(error);
                 setShowInventoryLoadingError(true);
@@ -39,7 +39,7 @@ const InventoryPageLoggedInView = () => {
 
     async function deleteInventory(inventory: InventoryModel) {
         try {
-            await InventoryApi.deleteInventory(inventories._id);
+            await InventoryApi.deleteInventory(inventory._id);
             setInventory(inventories.filter(existingInventory => existingInventory._id !== inventory._id));
         } catch (error) {
             console.error(error);
@@ -48,8 +48,8 @@ const InventoryPageLoggedInView = () => {
 
     }
 
-    const notesGrid =
-        <Row xs={1} md={2} xl={3} className={`g-4 ${styles.notesGrid}`}>
+    const inventoriesGrid =
+        <Row xs={1} md={2} xl={3} className={`g-4 ${styles.inventoriesGrid}`}>
             {inventories.map(inventory => (
                 <Col key={inventory._id} >
                     <Inventory
@@ -106,4 +106,4 @@ const InventoryPageLoggedInView = () => {
     );
 }
 
-export default InventoryPageLoggedInView;
+export default InventoryManagerPageLoggedInView;

@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
-import InventoryPageLoggedInView from "../components/InventoryPageLoggedInView";
-import InventoryPageLoggedOutView from "../components/InventoryPageLoggedOutView";
+import InventoryPageLoggedInView from "../components/InventoryAdminPageLoggedInView";
+import InventoryPageLoggedOutView from "../components/NotesPageLoggedOutView";
 import styles from "../styles/NotesPage.module.css";
 import { User } from "../models/user";
 

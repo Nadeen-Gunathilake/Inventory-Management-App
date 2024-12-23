@@ -8,3 +8,4 @@ export const requiresAuth: RequestHandler=(req, res, next)=>{
         next(createHttpError(401,"User not authenticated"));
      }
 }
+
