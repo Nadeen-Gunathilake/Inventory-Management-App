@@ -47,7 +47,7 @@ const Inventory = ({ inventories, onInventoryClicked, onDeleteInventoryClicked, 
                                 />
                                 <MdUpdate
                                     onClick={() => onInventoryClicked(inventory)}
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer' ,color: 'blue'}}
                                 />
 
                             </td>
