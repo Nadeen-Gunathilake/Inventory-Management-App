@@ -32,24 +32,25 @@ const Inventory = ({ inventories, onInventoryClicked, onDeleteInventoryClicked, 
                         : "Created: " + formatDate(createdAt);
 
                     return (
-                        <tr key={product_id}>
+                        <tr key={product_id} >
                             <td>{product_id}</td>
                             <td>{product_name}</td>
                             <td>{available_stock}</td>
                             <td>{createdUpdatedText}</td>
-                            <td className="space">
-                            <MdDelete
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onDeleteInventoryClicked(inventory); 
-                                    }}
-                                    style={{ cursor: 'pointer', color: 'red' }} 
-                                />
-                                <MdUpdate
-                                    onClick={() => onInventoryClicked(inventory)}
-                                    style={{ cursor: 'pointer' ,color: 'blue'}}
-                                />
-
+                            <td>
+                                <span className={styleUtils.space}>
+                                    <MdDelete
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onDeleteInventoryClicked(inventory);
+                                        }}
+                                        style={{ cursor: 'pointer', color: 'red' }}
+                                    />
+                                    <MdUpdate
+                                        onClick={() => onInventoryClicked(inventory)}
+                                        style={{ cursor: 'pointer', color: 'blue' }}
+                                    />
+                                </span>
                             </td>
                         </tr>
                     );
