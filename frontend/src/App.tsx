@@ -1,6 +1,5 @@
 import LoginModal from './components/LoginModal';
 import NavBar from './components/NavBar';
-import SignUpModal from './components/SignUpModal';
 import { useEffect, useState } from "react";
 import { User } from './models/user';
 import * as InventoryApi from "./network/inventory_api";
@@ -15,7 +14,6 @@ function App() {
 
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
 
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
@@ -36,7 +34,6 @@ function App() {
         <NavBar
           loggedInUser={loggedInUser}
           onLoginClicked={() => setShowLoginModal(true)}
-          onSignUpClicked={() => setShowSignUpModal(true)}
           onLogoutSucessful={() => setLoggedInUser(null)}
         />
         <Container className={styles.pageContainer}>
@@ -55,15 +52,7 @@ function App() {
             />
           </Routes>
         </Container>
-        {showSignUpModal &&
-          <SignUpModal
-            onDismiss={() => setShowSignUpModal(false)}
-            onSignUpSucessful={(user) => {
-              setLoggedInUser(user);
-              setShowSignUpModal(false);
-            }}
-          />
-        }
+      
         {showLoginModal &&
           <LoginModal
             onDismiss={() => setShowLoginModal(false)}
