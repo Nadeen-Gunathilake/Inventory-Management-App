@@ -3,7 +3,7 @@ import InventoryAdminPageLoggedInView from "../components/InventoryAdminPageLogg
 import InventoryManagerPageLoggedInView from "../components/InventoryManagerLoggedInView";
 import InventoryPageLoggedOutView from "../components/InventoryPageLoggedOutView";
 import { User } from "../models/user";
-import styleUtils from "../styles/utils.module.css";
+import StyleUtils from "../styles/utils.module.css";
 
 interface InventoryPageProps {
   loggedInUser: User | null,

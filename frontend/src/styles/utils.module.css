@@ -31,5 +31,8 @@
 
 .space{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    height: 100%;
+    padding: 4%;
 }
+ 

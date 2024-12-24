@@ -55,7 +55,7 @@ const InventoryAdminPageLoggedInView = () => {
     return (
         <>
             <div className={`${styleUtils.blockCenter} ${styleUtils.flexCenter} ${styleUtils.buttonsContainer}`}>
-                <Button
+                <Button 
                     className={`${styleUtils.button} ${styleUtils.sideBySideButton}`}
                     onClick={() => setShowAddInventoryDialog(true)}>
                     <FaPlus />
