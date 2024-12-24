@@ -1,4 +1,4 @@
-import { Button, Form, FormGroup, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { User } from "../models/user";
 import { UserInput } from "../network/user_api";
 import { useForm } from "react-hook-form";

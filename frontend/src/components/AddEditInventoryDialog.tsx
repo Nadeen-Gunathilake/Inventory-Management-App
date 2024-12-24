@@ -1,4 +1,4 @@
-import { Button, Form, FormGroup, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Inventory } from "../models/inventory";
 import { InventoryInput } from "../network/inventory_api";
 import { useForm } from "react-hook-form";
