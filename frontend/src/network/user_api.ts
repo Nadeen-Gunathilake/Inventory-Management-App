@@ -71,7 +71,7 @@ export interface UserInput {
 }
 
 export async function createUser(user: UserInput): Promise<User> {
-    const response = await fetchData("/api/user",
+    const response = await fetchData("/api/users",
         {
             method: "POST",
             headers: {
@@ -88,7 +88,7 @@ export async function createUser(user: UserInput): Promise<User> {
 }
 
 export async function updateUser(userId: string, user: UserInput): Promise<User> {
-    const response = await fetchData("/api/user/" + userId,
+    const response = await fetchData("/api/users/" + userId,
         {
             method: "PATCH",
             headers: {
@@ -100,5 +100,5 @@ export async function updateUser(userId: string, user: UserInput): Promise<User>
 }
 
 export async function deleteUser(userId: string) {
-    await fetchData("/api/user/" + userId, { method: "DELETE" });
+    await fetchData("/api/users/" + userId, { method: "DELETE" });
 }
