@@ -65,6 +65,7 @@ interface CreateUserBody {
     username?: string;
     email?: string;
     password?: string;
+    type?:string;
   
 
 }
@@ -73,6 +74,8 @@ interface CreateUserBody {
     username?: string;
     email?: string;
     password?: string;
+    
+  
    
 
 }
@@ -81,10 +84,13 @@ export const createUser: RequestHandler<unknown, unknown, CreateUserBody, unknow
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+
+    const type="Manager";
+    
    
 
     try {
-        if (!username || !email || !password) {
+        if (!username || !email || !password ||!type) {
             throw createHttpError(400, "User must have a username ,email and password.");
         }
 
@@ -92,6 +98,7 @@ export const createUser: RequestHandler<unknown, unknown, CreateUserBody, unknow
             username: username,
             email: email,
             password: password,
+            type: "Manager",
             
         });
 

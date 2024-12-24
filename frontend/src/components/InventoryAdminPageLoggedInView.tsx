@@ -2,19 +2,25 @@ import { useEffect, useState } from "react";
 import { Button, Spinner } from 'react-bootstrap';
 import { FaPlus } from "react-icons/fa";
 import { Inventory as InventoryModel } from '../models/inventory';
+import { User as UserModel } from '../models/user';
 import * as InventoryApi from "../network/inventory_api";
+import * as UserApi from "../network/user_api";
 import styles from "../styles/NotesPage.module.css";
 import styleUtils from "../styles/utils.module.css";
 import AddEditInventoryDialog from "./AddEditInventoryDialog";
+import AddUserDialog from "./AddManagerDialog";
 import Inventory from "./Inventory";
 
 const InventoryAdminPageLoggedInView = () => {
 
     const [inventories, setInventory] = useState<InventoryModel[]>([]);
+    const [users, setUsers] = useState<UserModel[]>([]);
     const [inventoriesLoading, setInventoryLoading] = useState(true);
     const [showInventoryLoadingError, setShowInventoryLoadingError] = useState(false);
-
+    
+    const [showAddInventoryManagerDialog, setShowAddInventoryManagerDialog] = useState(false);
     const [showAddInventoryDialog, setShowAddInventoryDialog] = useState(false);
+   
     const [inventoryToEdit, setInventoryToEdit] = useState<InventoryModel | null>(null);
 
     useEffect(() => {
@@ -33,6 +39,8 @@ const InventoryAdminPageLoggedInView = () => {
         }
         loadInventory();
     }, []);
+
+   
 
     async function deleteInventory(inventory: InventoryModel) {
         try {
@@ -55,7 +63,7 @@ const InventoryAdminPageLoggedInView = () => {
                 </Button>
                 <Button
                     className={`${styleUtils.button} ${styleUtils.sideBySideButton}`}
-                    onClick={() => setShowAddInventoryDialog(true)}>
+                    onClick={() => setShowAddInventoryManagerDialog(true)}>
                     <FaPlus />
                     Add new Inventory Manager
                 </Button>
@@ -93,6 +101,15 @@ const InventoryAdminPageLoggedInView = () => {
                             existingInventory._id === updatedInventory._id ? updatedInventory : existingInventory
                         ));
                         setInventoryToEdit(null);
+                    }}
+                />
+            }
+             {showAddInventoryManagerDialog &&
+                <AddUserDialog
+                    onDismiss={() => setShowAddInventoryManagerDialog(false)}
+                    onUserSaved={(newUser) => {
+                        setUsers([...users, newUser]);
+                        setShowAddInventoryManagerDialog(false);
                     }}
                 />
             }

@@ -17,6 +17,7 @@ const AddUserDialog = ({ onDismiss, onUserSaved }: AddUserDialogProps) => {
             username: "",
             email: "",
             password: "",
+            type: "Manager",
         }
     });
 

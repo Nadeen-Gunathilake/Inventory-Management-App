@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 
 interface NavBarProps {
     loggedInUser: User | null,
-    onSignUpClicked: () => void,
     onLoginClicked: () => void,
     onLogoutSucessful: () => void,
 }
 
-const NavBar = ({ loggedInUser, onSignUpClicked, onLoginClicked, onLogoutSucessful }: NavBarProps) => {
+const NavBar = ({ loggedInUser,onLoginClicked, onLogoutSucessful }: NavBarProps) => {
     return (
         <Navbar bg="primary" variant="dark" expand="sm" sticky="top">
             <Container>
@@ -28,7 +27,7 @@ const NavBar = ({ loggedInUser, onSignUpClicked, onLoginClicked, onLogoutSucessf
                     <Nav className="ms-auto">
                         {loggedInUser
                             ? <NavBarLoggedInView user={loggedInUser} onLogoutSucessful={onLogoutSucessful} />
-                            : <NavBarLoggedOutView onLoginClicked={onLoginClicked} onSignUpClicked={onSignUpClicked} />
+                            : <NavBarLoggedOutView onLoginClicked={onLoginClicked}  />
                         }
                     </Nav>
                 </Navbar.Collapse>
