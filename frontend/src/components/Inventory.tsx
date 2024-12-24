@@ -38,9 +38,12 @@ const Inventory = ({ inventories, onInventoryClicked, onDeleteInventoryClicked, 
                             <td>{available_stock}</td>
                             <td>{createdUpdatedText}</td>
                             <td className="space">
-                                <MdDelete
-                                    onClick={() => onDeleteInventoryClicked(inventory)}
-                                    style={{ cursor: 'pointer' }}
+                            <MdDelete
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDeleteInventoryClicked(inventory); 
+                                    }}
+                                    style={{ cursor: 'pointer', color: 'red' }} 
                                 />
                                 <MdUpdate
                                     onClick={() => onInventoryClicked(inventory)}

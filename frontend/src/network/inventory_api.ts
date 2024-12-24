@@ -88,7 +88,7 @@ export interface InventoryInput {
 }
 
 export async function createInventory(inventory: InventoryInput): Promise<Inventory> {
-    const response = await fetchData("/api/inventory",
+    const response = await fetchData("/api/inventories",
         {
             method: "POST",
             headers: {
@@ -105,7 +105,7 @@ export async function createInventory(inventory: InventoryInput): Promise<Invent
 }
 
 export async function updateInventory(inventoryId: string, inventory: InventoryInput): Promise<Inventory> {
-    const response = await fetchData("/api/inventory/" + inventoryId,
+    const response = await fetchData("/api/inventories/" + inventoryId,
         {
             method: "PATCH",
             headers: {
@@ -117,5 +117,5 @@ export async function updateInventory(inventoryId: string, inventory: InventoryI
 }
 
 export async function deleteInventory(inventoryId: string) {
-    await fetchData("/api/inventory/" + inventoryId, { method: "DELETE" });
+    await fetchData("/api/inventories/" + inventoryId, { method: "DELETE" });
 }
